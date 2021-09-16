@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">Doctolib_compose</string>
+    <string name="health_pro">Vous êtes professionnel de santé ?</string>
+    <string name="login">Se connecter</string>
+    <string name="plan_consultation">Réservez une consultation physique ou vidéo chez un professionnel de santé</string>
+    <string name="search_hint">Médecin, établissement, spécialité…</string>
 </resources>

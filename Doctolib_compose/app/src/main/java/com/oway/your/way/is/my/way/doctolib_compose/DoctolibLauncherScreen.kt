@@ -1,6 +1,7 @@
 package com.oway.your.way.`is`.my.way.doctolib_compose
 
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.Image
@@ -23,6 +24,7 @@ import androidx.navigation.compose.rememberNavController
 import com.oway.your.way.`is`.my.way.doctolib_compose.R.drawable.ic_logo_doctolib
 import com.oway.your.way.`is`.my.way.doctolib_compose.ui.theme.Doctolib_composeTheme
 import kotlinx.coroutines.delay
+import kotlin.math.log
 
 class DoctolibLauncherScreen : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -46,7 +48,12 @@ fun LaunchScreen() {
             LaunchScreenUI(navController = navController)
         }
         composable(DoctolibScreen.Home.route) {
-            HomeScreen()
+            HomeScreen(
+                onSearchBarClick = {
+                    Log.d("Navigation","onSearchBarClick")
+                    //TODO: Navigate to search screen
+                }
+            )
         }
     }
 }
