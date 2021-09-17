@@ -6,7 +6,11 @@
     <string name="search_hint">Médecin, établissement, spécialité…</string>
     <string name="informations">Informations</string>
     <string name="vaccination_new_hours">Vaccination : nouveaux créneaux</string>
+    <string name="share_prescription">Découvrez le partage d\'ordonnances</string>
+    <string name="privacy_header">Confidentialité : Doctolib s\'engage</string>
+    <string name="privacy_body">Vos données personnelles constituent le socle de votre vie privée. C\'est pourquoi assurer leur confidentialité est une priorité absolue pour Doctolib.\n\nVoici nos 4 engagements pour donner à votre vie privée la protection qu\'elle mérite.</string>
     <string name="vaccination_body">Les personnes de plus de 65 ans ou à risque face à la COVID-19 peuvent désormais prendre rendez-vous pour leur dose de rappel.</string>
+    <string name="share_prescription_body">Plus besoin d\'imprimer ni de télécharger vos ordonnances après une téléconsultation. Partagez-les avec votre pharmacie directement depuis votre compte.</string>
     <string name="vaccination_knowledge">Tout savoir sur la vaccination :</string>
     <string name="mode_emploi">mode d\'emploi</string>
     <string name="mode_emploi_url">https://about.doctolib.fr/covid-vaccination/</string>
@@ -14,4 +18,10 @@
     <string name="statistics">statistiques</string>
     <string name="stat_url">https://about.doctolib.fr</string>
     <string name="take_appointment">Prendre rendez-vous</string>
+    <string name="prescription_knowledge">Tout savoir sur le partage d\'ordonnances</string>
+    <string name="prescription_knowledge_url">https://about.doctolib.fr/informations/documents.html</string>
+    <string name="access_documents_cta">Accéder à mes documents</string>
+    <string name="discover_engagements">Découvrir nos engagements</string>
+    <string name="why_take_doctolib">Pourquoi prendre rendez-vous avec Doctolib ?</string>
+    <string name="first_doctolib_advantage">Accédez aux disponibilités de dizaines de milliers de professionnels de santé.</string>
 </resources>

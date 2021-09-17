@@ -18,6 +18,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.layout.LastBaseline
 import androidx.compose.ui.platform.LocalUriHandler
+import androidx.compose.ui.platform.UriHandler
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.SpanStyle
@@ -75,6 +76,9 @@ fun HomeScreen(onSearchBarClick: () -> Unit) {
             InfoCard(
                 modifier = Modifier.padding(16.dp)
             )
+        }
+        item {
+            WhiteSection()
         }
     }
 }
@@ -229,49 +233,22 @@ fun HealthProCard() {
 
 @Composable
 fun InfoCard(modifier: Modifier = Modifier) {
+    val uriHandler = LocalUriHandler.current
+    val prescriptionKnowledgeURL = stringResource(id = R.string.prescription_knowledge_url)
+
     Card (
         backgroundColor = MaterialTheme.colors.background,
         modifier = modifier
     ) {
         Column {
-            Row(
-                horizontalArrangement = Arrangement.Center,
-                verticalAlignment = Alignment.CenterVertically,
-                modifier = Modifier
-                    .height(44.dp)
-                    .fillMaxWidth()
-                    .background(
-                        color = Color.Green.copy(alpha = 0.25f),
-                        shape = RoundedCornerShape(topStart = 4.dp, topEnd = 4.dp)
-                    )
-            ) {
-                Image(
-                    painter = painterResource(id = R.drawable.ic_info_24px),
-                    colorFilter = ColorFilter.tint(color = MaterialTheme.colors.secondaryVariant),
-                    contentDescription = "icon information",
-                    modifier = Modifier.size(16.dp)
-                )
-                Spacer(modifier = Modifier.size(8.dp))
-                Text(
-                    stringResource(id = R.string.informations),
-                    style = MaterialTheme.typography.body2,
-                    fontWeight = FontWeight.Bold
-                )
-            }
-            Text(
-                stringResource(id = R.string.vaccination_new_hours),
-                color = MaterialTheme.colors.secondaryVariant,
-                fontWeight = FontWeight.Bold,
-                modifier = Modifier.padding(16.dp)
-            )
-            Text(
-                stringResource(id = R.string.vaccination_body),
-                color = MaterialTheme.colors.secondaryVariant,
-                modifier = Modifier.padding(start = 16.dp, end = 16.dp),
-                style = MaterialTheme.typography.body2
+            InfoHeader()
+            InfoSection(
+                header = stringResource(id = R.string.vaccination_new_hours),
+                body = stringResource(id = R.string.vaccination_body)
             )
             Spacer(modifier = Modifier.size(16.dp))
             AnnotatedClickableText(
+                uriHandler = uriHandler,
                 unclickableText = stringResource(id = R.string.vaccination_knowledge),
                 clickableText = stringResource(id = R.string.mode_emploi),
                 url = stringResource(id = R.string.mode_emploi_url),
@@ -279,32 +256,109 @@ fun InfoCard(modifier: Modifier = Modifier) {
             )
             Spacer(modifier = Modifier.size(8.dp))
             AnnotatedClickableText(
+                uriHandler = uriHandler,
                 unclickableText = stringResource(id = R.string.stat),
                 clickableText = stringResource(id = R.string.statistics),
                 url = stringResource(id = R.string.stat_url),
                 modifier = Modifier.padding(start = 16.dp, end = 16.dp)
             )
-            Spacer(modifier = Modifier.size(16.dp))
-            ButtonCTA(
-                action = stringResource(id = R.string.take_appointment),
-                textColor = Color.White
+            InfoFooter(action = stringResource(id = R.string.take_appointment))
+            InfoSection(
+                header = stringResource(id = R.string.share_prescription),
+                body = stringResource(id = R.string.share_prescription_body)
             )
-            Spacer(modifier = Modifier.size(24.dp))
-            Divider(modifier = Modifier.padding(start = 16.dp, end = 16.dp))
-            Spacer(modifier = Modifier.size(24.dp))
+            Spacer(modifier = Modifier.size(16.dp))
+            Text(
+                stringResource(id = R.string.prescription_knowledge),
+                color = MaterialTheme.colors.primaryVariant,
+                fontWeight = FontWeight.Bold,
+                style = MaterialTheme.typography.body2,
+                modifier = Modifier
+                    .padding(start = 16.dp, end = 16.dp)
+                    .clickable {
+                        uriHandler.openUri(prescriptionKnowledgeURL)
+                    }
+            )
+            InfoFooter(action = stringResource(id = R.string.access_documents_cta))
+            InfoSection(
+                header = stringResource(id = R.string.privacy_header),
+                body = stringResource(id = R.string.privacy_body)
+            )
+            ButtonCTA(
+                action = stringResource(id = R.string.discover_engagements),
+                textColor = Color.White,
+                modifier = Modifier.padding(top = 16.dp, bottom = 16.dp)
+            )
         }
     }
 }
 
 @Composable
+fun InfoHeader() {
+    Row(
+        horizontalArrangement = Arrangement.Center,
+        verticalAlignment = Alignment.CenterVertically,
+        modifier = Modifier
+            .height(44.dp)
+            .fillMaxWidth()
+            .background(
+                color = Color.Green.copy(alpha = 0.25f),
+                shape = RoundedCornerShape(topStart = 4.dp, topEnd = 4.dp)
+            )
+    ) {
+        Image(
+            painter = painterResource(id = R.drawable.ic_info_24px),
+            colorFilter = ColorFilter.tint(color = MaterialTheme.colors.secondaryVariant),
+            contentDescription = "icon information",
+            modifier = Modifier.size(16.dp)
+        )
+        Spacer(modifier = Modifier.size(8.dp))
+        Text(
+            stringResource(id = R.string.informations),
+            style = MaterialTheme.typography.body2,
+            fontWeight = FontWeight.Bold
+        )
+    }
+}
+
+@Composable
+fun InfoSection(header: String, body: String) {
+    Text(
+        header,
+        color = MaterialTheme.colors.secondaryVariant,
+        fontWeight = FontWeight.Bold,
+        modifier = Modifier.padding(16.dp)
+    )
+    Text(
+        body,
+        color = MaterialTheme.colors.secondaryVariant,
+        modifier = Modifier.padding(start = 16.dp, end = 16.dp),
+        style = MaterialTheme.typography.body2
+    )
+}
+
+@Composable
+fun InfoFooter(action: String) {
+    Spacer(modifier = Modifier.size(16.dp))
+    ButtonCTA(
+        action = action,
+        textColor = Color.White
+    )
+    Spacer(modifier = Modifier.size(24.dp))
+    Divider(modifier = Modifier.padding(start = 16.dp, end = 16.dp))
+    Spacer(modifier = Modifier.size(8.dp))
+}
+
+@Composable
 fun ButtonCTA(
     action: String,
-    textColor: Color
+    textColor: Color,
+    modifier: Modifier = Modifier
 ) {
     Button(
         onClick = { },
         colors = ButtonDefaults.buttonColors(backgroundColor = MaterialTheme.colors.primaryVariant),
-        modifier = Modifier
+        modifier = modifier
             .height(44.dp)
             .fillMaxWidth()
             .padding(start = 16.dp, end = 16.dp)
@@ -314,18 +368,19 @@ fun ButtonCTA(
             color = textColor,
             style = MaterialTheme.typography.button,
             textAlign = TextAlign.Center,
+            fontWeight = FontWeight.Bold
         )
     }
 }
 
 @Composable
 fun AnnotatedClickableText(
+    uriHandler: UriHandler,
     unclickableText: String,
     clickableText: String,
     url: String,
     modifier: Modifier = Modifier
 ) {
-    val uriHandler = LocalUriHandler.current
     val annotatedText = buildAnnotatedString {
         append("$unclickableText ")
 
@@ -358,10 +413,51 @@ fun AnnotatedClickableText(
     )
 }
 
-@Preview(showBackground = true)
 @Composable
-fun InfoCardPreview() {
-    Doctolib_composeTheme {
-        InfoCard()
+fun WhiteSection() {
+    Column(
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center,
+        modifier = Modifier
+            .fillMaxWidth()
+            .background(MaterialTheme.colors.background)
+    ) {
+        Text(
+            stringResource(id = R.string.why_take_doctolib),
+            color = MaterialTheme.colors.secondaryVariant,
+            style = MaterialTheme.typography.h6,
+            textAlign = TextAlign.Center,
+            fontWeight = FontWeight.Bold,
+            modifier = Modifier.padding(32.dp)
+        )
+        ValueProposition(
+            imageResource = R.drawable.ic_first_value,
+            contentDescription = "first doctolib's image",
+            description = stringResource(id = R.string.first_doctolib_advantage)
+        )
+    }
+}
+
+@Composable
+fun ValueProposition(
+    imageResource: Int,
+    contentDescription: String,
+    description: String
+) {
+    Column(
+        horizontalAlignment = Alignment.CenterHorizontally,
+        modifier = Modifier.padding(start = 32.dp, end = 32.dp)
+    ) {
+        Image(
+            painter = painterResource(id = imageResource),
+            contentDescription = contentDescription
+        )
+        Spacer(modifier = Modifier.size(16.dp))
+        Text(
+            description,
+            style = MaterialTheme.typography.body2,
+            color = MaterialTheme.colors.secondaryVariant,
+            textAlign = TextAlign.Center
+        )
     }
 }
