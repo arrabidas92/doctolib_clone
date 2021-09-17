@@ -4,4 +4,14 @@
     <string name="login">Se connecter</string>
     <string name="plan_consultation">Réservez une consultation physique ou vidéo chez un professionnel de santé</string>
     <string name="search_hint">Médecin, établissement, spécialité…</string>
+    <string name="informations">Informations</string>
+    <string name="vaccination_new_hours">Vaccination : nouveaux créneaux</string>
+    <string name="vaccination_body">Les personnes de plus de 65 ans ou à risque face à la COVID-19 peuvent désormais prendre rendez-vous pour leur dose de rappel.</string>
+    <string name="vaccination_knowledge">Tout savoir sur la vaccination :</string>
+    <string name="mode_emploi">mode d\'emploi</string>
+    <string name="mode_emploi_url">https://about.doctolib.fr/covid-vaccination/</string>
+    <string name="stat">Suivre son évolution :</string>
+    <string name="statistics">statistiques</string>
+    <string name="stat_url">https://about.doctolib.fr</string>
+    <string name="take_appointment">Prendre rendez-vous</string>
 </resources>
