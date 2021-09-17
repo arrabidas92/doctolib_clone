@@ -435,6 +435,45 @@ fun WhiteSection() {
             contentDescription = "first doctolib's image",
             description = stringResource(id = R.string.first_doctolib_advantage)
         )
+        ValueProposition(
+            imageResource = R.drawable.ic_second_value,
+            contentDescription = "second doctolib's image",
+            description = stringResource(id = R.string.second_doctolib_advantage)
+        )
+        ValueProposition(
+            imageResource = R.drawable.ic_third_value,
+            contentDescription = "third doctolib's image",
+            description = stringResource(id = R.string.third_doctolib_advantage)
+        )
+        ValueProposition(
+            imageResource = R.drawable.ic_fourth_value,
+            contentDescription = "fourth doctolib's image",
+            description = stringResource(id = R.string.fourth_doctolib_advantage)
+        )
+        Spacer(modifier = Modifier.size(32.dp))
+        Text(
+            stringResource(id = R.string.doctolib_is),
+            style = MaterialTheme.typography.h5,
+            color = Color.Black.copy(alpha = 0.5f),
+            fontWeight = FontWeight.Bold,
+            textAlign = TextAlign.Center,
+            modifier = Modifier.padding(start = 16.dp, end = 16.dp)
+        )
+        Spacer(modifier = Modifier.size(32.dp))
+        StatInfo(
+            stat = stringResource(id = R.string.stat_patients),
+            domain = stringResource(id = R.string.stat_patients_domain)
+        )
+        Spacer(modifier = Modifier.size(24.dp))
+        StatInfo(
+            stat = stringResource(id = R.string.stat_health_personal),
+            domain = stringResource(id = R.string.stat_health_personal_domain)
+        )
+        Spacer(modifier = Modifier.size(24.dp))
+        StatInfo(
+            stat = stringResource(id = R.string.stat_positive_review),
+            domain = stringResource(id = R.string.stat_positive_review_domain)
+        )
     }
 }
 
@@ -455,9 +494,42 @@ fun ValueProposition(
         Spacer(modifier = Modifier.size(16.dp))
         Text(
             description,
-            style = MaterialTheme.typography.body2,
+            style = MaterialTheme.typography.caption,
             color = MaterialTheme.colors.secondaryVariant,
             textAlign = TextAlign.Center
         )
+        Spacer(modifier = Modifier.size(16.dp))
+    }
+}
+
+@Composable
+fun StatInfo(stat: String, domain: String) {
+    Column(
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        Text(
+            stat,
+            style = MaterialTheme.typography.h5,
+            color = Color.Black,
+            textAlign = TextAlign.Center
+        )
+        Row(
+            horizontalArrangement = Arrangement.Center,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Text(
+                domain,
+                style = MaterialTheme.typography.caption,
+                color = Color.Black.copy(alpha = 0.75f),
+                textAlign = TextAlign.Center
+            )
+            Spacer(modifier = Modifier.size(4.dp))
+            Image(
+                painter = painterResource(id = R.drawable.ic_help_24px),
+                contentDescription = "logo help",
+                colorFilter = ColorFilter.tint(Color.Gray),
+                modifier = Modifier.size(12.dp)
+            )
+        }
     }
 }
