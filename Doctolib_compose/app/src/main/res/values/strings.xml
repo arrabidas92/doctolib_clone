@@ -34,4 +34,16 @@
     <string name="stat_patients_domain">de patients</string>
     <string name="stat_health_personal_domain">personnels de santé</string>
     <string name="stat_positive_review_domain">d\'avis positifs</string>
+    <string name="your_health_your_data">Votre santé. Vos données.</string>
+    <string name="your_health_your_data_body">La confidentialité de vos informations personnelles est une priorité absolue pour Doctolib et guide notre action au quotidien.</string>
+    <string name="equip_doctolib">Équipez-vous du logiciel Doctolib pour gagner en confort de travail.</string>
+    <string name="free_medical_time">Libérez du temps médical grâce à la prise de rendez-vous en ligne et un logicial moderne</string>
+    <string name="develop_activity">Développez l\'activité de votre cabinet selon vos besoins grâce à une meilleure visibilité en ligne</string>
+    <string name="win_comfort">Gagnez en confort de travail au quotidien en réduisant les appels téléphoniques à votre cabinet</string>
+    <string name="improve_access">Améliorez l\'accès aux soins pour vos patients en leur proposant la meilleure des expériences</string>
+    <string name="discover_doctolib_pro">Découvrir Doctolib Pro</string>
+    <string name="doctolib_recruit">Doctolib recrute !</string>
+    <string name="better_health_system">Pour un système de santé plus humain, efficace et connecté.</string>
+    <string name="join_us">Nous rejoindre</string>
+    <string name="legal_infos">Informatons légales</string>
 </resources>

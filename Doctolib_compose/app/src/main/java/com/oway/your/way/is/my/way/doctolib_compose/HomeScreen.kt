@@ -1,6 +1,5 @@
 package com.oway.your.way.`is`.my.way.doctolib_compose
 
-import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -13,10 +12,9 @@ import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
-import androidx.compose.ui.layout.LastBaseline
 import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.platform.UriHandler
 import androidx.compose.ui.res.painterResource
@@ -27,11 +25,10 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.withStyle
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.oway.your.way.`is`.my.way.doctolib_compose.ui.theme.Doctolib_composeTheme
 
-//TODO:Continue implementing UI for home screen
+//TODO:Add click actions on buttons
+//TODO:Add redirections
 
 @Composable
 fun HomeScreen(onSearchBarClick: () -> Unit) {
@@ -374,6 +371,31 @@ fun ButtonCTA(
 }
 
 @Composable
+fun ButtonOutlineCTA(
+    action: String,
+    textColor: Color,
+    modifier: Modifier = Modifier
+) {
+    Button(
+        onClick = { },
+        colors = ButtonDefaults.buttonColors(backgroundColor = MaterialTheme.colors.background),
+        modifier = modifier
+            .height(44.dp)
+            .fillMaxWidth()
+            .padding(start = 16.dp, end = 16.dp)
+            .border(1.dp, MaterialTheme.colors.secondaryVariant, MaterialTheme.shapes.small)
+    ) {
+        Text(
+            action.uppercase(),
+            color = textColor,
+            style = MaterialTheme.typography.button,
+            textAlign = TextAlign.Center,
+            fontWeight = FontWeight.Bold
+        )
+    }
+}
+
+@Composable
 fun AnnotatedClickableText(
     uriHandler: UriHandler,
     unclickableText: String,
@@ -473,6 +495,189 @@ fun WhiteSection() {
         StatInfo(
             stat = stringResource(id = R.string.stat_positive_review),
             domain = stringResource(id = R.string.stat_positive_review_domain)
+        )
+        Spacer(modifier = Modifier.size(32.dp))
+        PrivacyCard(modifier = Modifier.padding(top = 16.dp, bottom = 16.dp, start = 24.dp, end = 24.dp))
+        Spacer(modifier = Modifier.size(32.dp))
+        DiscoverProSection()
+        Spacer(modifier = Modifier.size(32.dp))
+        RecruitSection(modifier = Modifier.padding(start = 24.dp, end = 24.dp))
+        Spacer(modifier = Modifier.size(32.dp))
+        LegalSection()
+        Spacer(modifier = Modifier.size(32.dp))
+    }
+}
+
+@Composable
+fun PrivacyCard(modifier: Modifier = Modifier) {
+    Card(
+        modifier = modifier
+    ) {
+        Column(
+            horizontalAlignment = Alignment.CenterHorizontally,
+            modifier = Modifier.background(
+                brush = Brush.verticalGradient(
+                    colors = listOf(
+                        Color(red = 247, green = 250, blue = 255),
+                        Color(red = 233, green = 246, blue = 252)
+                    ),
+                    500f,
+                    800f
+                )
+            )
+        ) {
+            Image(
+                painter = painterResource(id = R.drawable.ic_privacy),
+                contentDescription = "logo confidentalité",
+                modifier = Modifier.padding(top = 16.dp, bottom = 16.dp)
+            )
+            Spacer(modifier = Modifier.size(16.dp))
+            Text(
+                stringResource(id = R.string.your_health_your_data),
+                style = MaterialTheme.typography.h6,
+                color = MaterialTheme.colors.secondaryVariant,
+                fontWeight = FontWeight.Bold,
+                textAlign = TextAlign.Center,
+                modifier = Modifier.padding(start = 16.dp, end = 16.dp)
+            )
+            Spacer(modifier = Modifier.size(16.dp))
+            Text(
+                stringResource(id = R.string.your_health_your_data_body),
+                style = MaterialTheme.typography.body1,
+                color = MaterialTheme.colors.secondaryVariant,
+                textAlign = TextAlign.Center,
+                modifier = Modifier.padding(start = 16.dp, end = 16.dp)
+            )
+            Spacer(modifier = Modifier.size(32.dp))
+            ButtonCTA(
+                action = stringResource(id = R.string.discover_engagements),
+                textColor = MaterialTheme.colors.background
+            )
+            Spacer(modifier = Modifier.size(32.dp))
+        }
+    }
+}
+
+@Composable
+fun DiscoverProSection() {
+    Column(
+        horizontalAlignment = Alignment.Start,
+    ) {
+        Text(
+            stringResource(id = R.string.health_pro),
+            style = MaterialTheme.typography.h6,
+            color = MaterialTheme.colors.secondaryVariant,
+            fontWeight = FontWeight.Bold,
+            modifier = Modifier.padding(start = 24.dp, end = 24.dp)
+        )
+        Spacer(modifier = Modifier.size(24.dp))
+        Text(
+            stringResource(id = R.string.equip_doctolib),
+            style = MaterialTheme.typography.body1,
+            color = Color.Gray,
+            fontWeight = FontWeight.Bold,
+            modifier = Modifier.padding(start = 24.dp, end = 24.dp)
+        )
+        Spacer(modifier = Modifier.size(8.dp))
+        Text(
+            stringResource(id = R.string.free_medical_time),
+            style = MaterialTheme.typography.body2,
+            color = MaterialTheme.colors.onBackground,
+            modifier = Modifier.padding(start = 24.dp, end = 24.dp)
+        )
+        Spacer(modifier = Modifier.size(8.dp))
+        Text(
+            stringResource(id = R.string.develop_activity),
+            style = MaterialTheme.typography.body2,
+            color = MaterialTheme.colors.onBackground,
+            modifier = Modifier.padding(start = 24.dp, end = 24.dp)
+        )
+        Spacer(modifier = Modifier.size(8.dp))
+        Text(
+            stringResource(id = R.string.win_comfort),
+            style = MaterialTheme.typography.body2,
+            color = MaterialTheme.colors.onBackground,
+            modifier = Modifier.padding(start = 24.dp, end = 24.dp)
+        )
+        Spacer(modifier = Modifier.size(8.dp))
+        Text(
+            stringResource(id = R.string.improve_access),
+            style = MaterialTheme.typography.body2,
+            color = MaterialTheme.colors.onBackground,
+            modifier = Modifier.padding(start = 24.dp, end = 24.dp)
+        )
+        Spacer(modifier = Modifier.size(24.dp))
+        ButtonOutlineCTA(
+            action = stringResource(id = R.string.discover_doctolib_pro),
+            textColor = MaterialTheme.colors.secondaryVariant,
+            modifier = Modifier.padding(start = 8.dp, end = 8.dp)
+        )
+        Image(
+            painter = painterResource(id = R.drawable.ic_join_pro),
+            contentDescription = "Join Doctolib Pro",
+            modifier = Modifier.padding(32.dp)
+        )
+    }
+}
+
+@Composable
+fun RecruitSection(modifier: Modifier = Modifier) {
+    Card(
+        backgroundColor = Color(red = 249, green = 250, blue = 253),
+        modifier = modifier
+    ) {
+        Column(
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            Spacer(modifier = Modifier.size(32.dp))
+            Text(
+                stringResource(id = R.string.doctolib_recruit),
+                style = MaterialTheme.typography.h6,
+                color = MaterialTheme.colors.secondaryVariant,
+                fontWeight = FontWeight.Bold,
+                textAlign = TextAlign.Center,
+                modifier = Modifier.padding(start = 32.dp, end = 32.dp)
+            )
+            Spacer(modifier = Modifier.size(16.dp))
+            Text(
+                stringResource(id = R.string.better_health_system),
+                style = MaterialTheme.typography.body2,
+                color = MaterialTheme.colors.secondaryVariant,
+                textAlign = TextAlign.Center,
+                modifier = Modifier.padding(start = 32.dp, end = 32.dp)
+            )
+            Spacer(modifier = Modifier.size(32.dp))
+            ButtonOutlineCTA(
+                action = stringResource(id = R.string.join_us),
+                textColor = MaterialTheme.colors.secondaryVariant
+            )
+            Spacer(modifier = Modifier.size(32.dp))
+            Image(
+                painter = painterResource(id = R.drawable.ic_recruit),
+                contentDescription = "Image recruitment"
+            )
+        }
+    }
+}
+
+@Composable
+fun LegalSection() {
+    Row(
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.Center
+    ) {
+        Text(
+            stringResource(id = R.string.legal_infos),
+            style = MaterialTheme.typography.body2,
+            color = MaterialTheme.colors.primaryVariant,
+            fontWeight = FontWeight.Bold
+        )
+        Spacer(modifier = Modifier.size(4.dp))
+        Image(
+            painter = painterResource(id = R.drawable.ic_chevron_right_48px),
+            contentDescription = "icon chevron",
+            colorFilter = ColorFilter.tint(MaterialTheme.colors.primaryVariant),
+            modifier = Modifier.size(16.dp)
         )
     }
 }
