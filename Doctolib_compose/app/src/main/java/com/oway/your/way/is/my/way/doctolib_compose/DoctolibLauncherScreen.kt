@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.CircularProgressIndicator
+import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -27,6 +28,7 @@ import kotlinx.coroutines.delay
 import kotlin.math.log
 
 class DoctolibLauncherScreen : ComponentActivity() {
+    @ExperimentalMaterialApi
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
@@ -37,6 +39,7 @@ class DoctolibLauncherScreen : ComponentActivity() {
     }
 }
 
+@ExperimentalMaterialApi
 @Composable
 fun LaunchScreen() {
     val navController = rememberNavController()
@@ -78,13 +81,5 @@ fun LaunchScreenUI(navController: NavHostController) {
         CircularProgressIndicator(
             color = MaterialTheme.colors.background
         )
-    }
-}
-
-@Preview(showBackground = true)
-@Composable
-fun DefaultPreview() {
-    Doctolib_composeTheme {
-        LaunchScreen()
     }
 }

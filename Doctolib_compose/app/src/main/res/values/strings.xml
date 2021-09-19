@@ -46,4 +46,7 @@
     <string name="better_health_system">Pour un système de santé plus humain, efficace et connecté.</string>
     <string name="join_us">Nous rejoindre</string>
     <string name="legal_infos">Informatons légales</string>
+    <string name="choose_your_country">Choisissez votre pays</string>
+    <string name="warning_select_language">Vous ne pourrez prendre rendez-vous que dans le pays sélectionné</string>
+    <string name="confirm">Valider</string>
 </resources>

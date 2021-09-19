@@ -9,7 +9,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.ClickableText
 import androidx.compose.material.*
-import androidx.compose.runtime.Composable
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
@@ -19,6 +19,7 @@ import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.platform.UriHandler
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.state.ToggleableState
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
@@ -26,72 +27,226 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.launch
 
-//TODO:Add click actions on buttons
-//TODO:Add redirections
+//TODO:Add navigation when clicking se connecter button
 
+@ExperimentalMaterialApi
 @Composable
 fun HomeScreen(onSearchBarClick: () -> Unit) {
-    LazyColumn(
-        modifier = Modifier.background(MaterialTheme.colors.primaryVariant)
+    val bottomSheetState = rememberModalBottomSheetState(initialValue = ModalBottomSheetValue.Hidden)
+    val coroutineScope = rememberCoroutineScope()
+    var countrySelected by remember { mutableStateOf(Country.FRANCE) }
+
+    ModalBottomSheetLayout(
+        sheetState = bottomSheetState,
+        sheetBackgroundColor = MaterialTheme.colors.background,
+        sheetShape = MaterialTheme.shapes.small,
+        sheetContent = {
+            BottomSheetContent(
+                bottomSheetState = bottomSheetState,
+                coroutineScope = coroutineScope,
+                onCheckedCountry = {
+                    countrySelected = it
+                }
+            )
+        },
     ) {
-        item {
-            TopBar(modifier = Modifier
-                .fillMaxWidth()
-                .height(75.dp)
-                .padding(4.dp)
-            )
-        }
-        item {
-            Spacer(modifier = Modifier
-                .fillMaxWidth()
-                .height(8.dp)
-            )
-        }
-        item {
-            SearchCard(
-                onSearchBarClick = onSearchBarClick,
-                modifier = Modifier.padding(16.dp)
-            )
-        }
-        item {
-            Spacer(modifier = Modifier
-                .fillMaxWidth()
-                .height(16.dp)
-            )
-        }
-        item {
-            HealthProCard()
-        }
-        item {
-            Spacer(modifier = Modifier
-                .fillMaxWidth()
-                .height(16.dp)
-            )
-        }
-        item {
-            InfoCard(
-                modifier = Modifier.padding(16.dp)
-            )
-        }
-        item {
-            WhiteSection()
+        LazyColumn(
+            modifier = Modifier.background(MaterialTheme.colors.primaryVariant)
+        ) {
+            item {
+                TopBar(
+                    countrySelected = countrySelected,
+                    onLanguageClick = { coroutineScope.launch { bottomSheetState.show() }},
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(75.dp)
+                        .padding(4.dp)
+                )
+            }
+            item {
+                Spacer(modifier = Modifier
+                    .fillMaxWidth()
+                    .height(8.dp)
+                )
+            }
+            item {
+                SearchCard(
+                    onSearchBarClick = onSearchBarClick,
+                    modifier = Modifier.padding(16.dp)
+                )
+            }
+            item {
+                Spacer(modifier = Modifier
+                    .fillMaxWidth()
+                    .height(16.dp)
+                )
+            }
+            item {
+                HealthProCard()
+            }
+            item {
+                Spacer(modifier = Modifier
+                    .fillMaxWidth()
+                    .height(16.dp)
+                )
+            }
+            item {
+                InfoCard(
+                    modifier = Modifier.padding(16.dp)
+                )
+            }
+            item {
+                WhiteSection()
+            }
         }
     }
 }
 
+@ExperimentalMaterialApi
 @Composable
-fun TopBar(modifier: Modifier = Modifier) {
+fun BottomSheetContent(
+    bottomSheetState: ModalBottomSheetState,
+    coroutineScope: CoroutineScope,
+    onCheckedCountry: (Country) -> Unit
+) {
+    val countries = listOf(
+        Country.GERMANY,
+        Country.FRANCE,
+        Country.ITALIA
+    )
+    var countrySelected by remember { mutableStateOf(Country.FRANCE) }
+
+    Column {
+        Row(
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically,
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(top = 8.dp, bottom = 8.dp, start = 16.dp, end = 16.dp)
+        ) {
+            Spacer(modifier = Modifier.size(32.dp))
+            Text(
+                stringResource(id = R.string.choose_your_country),
+                style = MaterialTheme.typography.body1,
+                color = MaterialTheme.colors.secondaryVariant,
+                fontWeight = FontWeight.Bold
+            )
+            Image(
+                painter = painterResource(id = R.drawable.ic_close_48px),
+                contentDescription = null,
+                modifier = Modifier
+                    .size(32.dp)
+                    .clickable {
+                        coroutineScope.launch {
+                            countrySelected = Country.FRANCE
+                            bottomSheetState.hide()
+                        }
+                    }
+            )
+        }
+        Divider(modifier = Modifier.padding(start = 16.dp, end = 16.dp))
+        for (country in countries) {
+            LanguageRow(
+                country = country,
+                currentCountrySelected = countrySelected,
+                onCheckedCountry = {
+                    countrySelected = it
+                }
+            )
+            Divider(modifier = Modifier.padding(start = 16.dp, end = 16.dp))
+        }
+        Spacer(modifier = Modifier.size(16.dp))
+        WarningBox()
+        Spacer(modifier = Modifier.size(16.dp))
+        ButtonCTA(
+            action = stringResource(id = R.string.confirm),
+            textColor = MaterialTheme.colors.background,
+            onCTA = {
+                onCheckedCountry(countrySelected)
+                coroutineScope.launch { bottomSheetState.hide() }
+            }
+        )
+        Spacer(modifier = Modifier.size(32.dp))
+    }
+}
+
+@Composable
+fun LanguageRow(
+    country: Country,
+    currentCountrySelected: Country,
+    onCheckedCountry: (Country) -> Unit
+) {
+    Row(
+        horizontalArrangement = Arrangement.SpaceBetween,
+        verticalAlignment = Alignment.CenterVertically,
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(top = 8.dp, bottom = 8.dp, start = 16.dp, end = 16.dp)
+    ) {
+        Row(
+            horizontalArrangement = Arrangement.SpaceBetween
+        ) {
+            Checkbox(
+                colors = CheckboxDefaults.colors(checkedColor = MaterialTheme.colors.primaryVariant),
+                checked = country == currentCountrySelected,
+                onCheckedChange = { onCheckedCountry(country) }
+            )
+            Spacer(modifier = Modifier.size(16.dp))
+            Text(
+                country.title,
+                fontWeight = FontWeight.Bold,
+                color = MaterialTheme.colors.secondaryVariant,
+                style = MaterialTheme.typography.body2
+            )
+        }
+        Image(
+            painter = painterResource(id = country.resource),
+            contentDescription = "language icon"
+        )
+    }
+}
+
+@Composable
+fun WarningBox() {
+    Box(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(start = 16.dp, end = 16.dp)
+            .background(
+                color = MaterialTheme.colors.secondary.copy(alpha = 0.25f),
+                shape = MaterialTheme.shapes.small
+            )
+            .border(
+                1.dp,
+                color = MaterialTheme.colors.secondary,
+                shape = MaterialTheme.shapes.small
+            )
+    ) {
+        Text(
+            stringResource(id = R.string.warning_select_language),
+            color = MaterialTheme.colors.secondaryVariant,
+            style = MaterialTheme.typography.body2,
+            textAlign = TextAlign.Center,
+            modifier = Modifier.padding(start = 16.dp, end = 16.dp, top = 8.dp, bottom = 8.dp)
+        )
+    }
+}
+
+@Composable
+fun TopBar(countrySelected: Country, onLanguageClick: () -> Unit, modifier: Modifier = Modifier) {
     Row(
         horizontalArrangement = Arrangement.SpaceEvenly,
         verticalAlignment = Alignment.CenterVertically,
         modifier = modifier
     ) {
-        LanguageItem()
+        LanguageItem(countrySelected, onLanguageClick)
         Image(
             painter = painterResource(id = R.drawable.ic_logo_doctolib),
             modifier = Modifier.fillMaxHeight(),
-            contentDescription = "logo doctolib"
+            contentDescription = "logo doctoral"
         )
         Text(
             stringResource(id = R.string.login),
@@ -103,13 +258,11 @@ fun TopBar(modifier: Modifier = Modifier) {
 }
 
 @Composable
-fun LanguageItem() {
+fun LanguageItem(countrySelected: Country, onLanguageClick: () -> Unit) {
     Row (
         verticalAlignment = Alignment.CenterVertically,
         modifier = Modifier
-            .clickable {
-                //TODO:Add clickable action
-            }
+            .clickable { onLanguageClick() }
     ) {
         Image(
             painter = painterResource(id = R.drawable.ic_public_48px),
@@ -119,7 +272,7 @@ fun LanguageItem() {
         )
         Spacer(modifier = Modifier.size(8.dp))
         Text(
-            "FR",
+            countrySelected.abbreviation,
             color = MaterialTheme.colors.background,
             style = MaterialTheme.typography.body2,
             textAlign = TextAlign.Center,
@@ -221,7 +374,7 @@ fun HealthProCard() {
         Image(
             painter = painterResource(id = R.drawable.ic_chevron_right_48px),
             colorFilter = ColorFilter.tint(color = Color.White.copy(alpha = 0.75f)),
-            contentDescription = "logo chevron droite",
+            contentDescription = "logo chevron right",
             modifier = Modifier
                 .size(26.dp)
         )
@@ -284,7 +437,8 @@ fun InfoCard(modifier: Modifier = Modifier) {
             ButtonCTA(
                 action = stringResource(id = R.string.discover_engagements),
                 textColor = Color.White,
-                modifier = Modifier.padding(top = 16.dp, bottom = 16.dp)
+                modifier = Modifier.padding(top = 16.dp, bottom = 16.dp),
+                onCTA = { }
             )
         }
     }
@@ -339,7 +493,8 @@ fun InfoFooter(action: String) {
     Spacer(modifier = Modifier.size(16.dp))
     ButtonCTA(
         action = action,
-        textColor = Color.White
+        textColor = Color.White,
+        onCTA = { }
     )
     Spacer(modifier = Modifier.size(24.dp))
     Divider(modifier = Modifier.padding(start = 16.dp, end = 16.dp))
@@ -350,10 +505,11 @@ fun InfoFooter(action: String) {
 fun ButtonCTA(
     action: String,
     textColor: Color,
+    onCTA: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     Button(
-        onClick = { },
+        onClick = { onCTA() },
         colors = ButtonDefaults.buttonColors(backgroundColor = MaterialTheme.colors.primaryVariant),
         modifier = modifier
             .height(44.dp)
@@ -551,7 +707,8 @@ fun PrivacyCard(modifier: Modifier = Modifier) {
             Spacer(modifier = Modifier.size(32.dp))
             ButtonCTA(
                 action = stringResource(id = R.string.discover_engagements),
-                textColor = MaterialTheme.colors.background
+                textColor = MaterialTheme.colors.background,
+                onCTA = { }
             )
             Spacer(modifier = Modifier.size(32.dp))
         }
